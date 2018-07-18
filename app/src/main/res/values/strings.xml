@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Agenda Telefonica Nati</string>
+    <string name="btnLogin">Entrar</string>
+    <string name="btnCadastrar">Cadastrar</string>
+</resources>
