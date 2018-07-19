@@ -6,104 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".modules.auth.view.MainActivity">
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="5dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/authMainLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:gravity="center">
 
-            <LinearLayout
-                android:id="@+id/authMainLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="10dp"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:src="@drawable/ic_contact_phone_black_24dp"
-                    android:tint="#fff"
-                    android:backgroundTint="@color/colorAccent"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-
-                <TextView
-                    android:text="Entrar"
-                    android:textColor="#ffffff"
-                    android:textSize="22sp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-            
             <ImageView
-                android:id="@+id/loginArrow"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:rotation="45"
-                android:layout_marginTop="-15dp"
-                android:src="@drawable/square"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/authMainLinearLayout"/>
+                android:src="@drawable/ic_contact_phone_black_24dp"
+                android:tint="#fff"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_marginTop="20dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
 
-            <LinearLayout
+            <TextView
+                android:text="Entrar"
+                android:textColor="#ffffff"
+                android:textSize="22sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/loginArrow"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:rotation="45"
+            android:layout_marginTop="-15dp"
+            android:src="@drawable/square"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/authMainLinearLayout"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loginArrow"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtAuthEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/loginArrow"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical">
+                android:layout_margin="10dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
-                <EditText
-                    android:id="@+id/txtAuthEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress" />
+            <EditText
+                android:id="@+id/txtAuthSenha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Senha"
+                android:inputType="textPassword"
+                />
 
-                <EditText
-                    android:id="@+id/txtAuthSenha"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="Senha"
-                    android:inputType="textPassword"
-                    />
+            <Button
+                android:id="@+id/btnAuthLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="@string/btnLogin"
+                android:textColor="#fff"/>
 
-                <Button
-                    android:id="@+id/btnAuthLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:text="@string/btnLogin"
-                    android:textColor="#fff"/>
+            <Button
+                android:id="@+id/btnAuthCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/btnCadastrar" />
 
-                <Button
-                    android:id="@+id/btnAuthCadastrar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/btnCadastrar" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
+    </RelativeLayout>
 
 
 

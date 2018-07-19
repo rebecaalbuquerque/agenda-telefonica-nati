@@ -1,4 +1,25 @@
 package br.com.albuquerque.agendatelefonicanati.modules.auth.database
 
-class AuthDatabase {
+import br.com.albuquerque.agendatelefonicanati.modules.auth.model.User
+import io.realm.Realm
+
+object AuthDatabase {
+
+    fun salvarUsuarioLogado(usuario: User, onSuccess: () -> Unit){
+
+        Realm.getDefaultInstance().use { realm ->
+
+            realm.beginTransaction()
+            realm.copyToRealm(usuario)
+            realm.commitTransaction()
+            onSuccess()
+
+        }
+
+    }
+
+    fun buscarUsuarioLogado(): User? {
+        return Realm.getDefaultInstance().where(User::class.java).findFirst()
+    }
+
 }
