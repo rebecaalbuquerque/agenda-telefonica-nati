@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".modules.auth.view.MainActivity"
             android:theme="@style/LoginActivityTheme">
@@ -20,10 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".modules.contacts.view.ContactsActivity" />
+
         <activity android:name=".modules.contacts.view.ContactDetailActivity" />
+
         <activity android:name=".modules.contacts.view.NewContactActivity" />
-        <activity android:name=".modules.auth.view.RegisterAccountActivity"></activity>
+
+        <activity android:name=".modules.auth.view.RegisterAccountActivity"
+            android:parentActivityName=".modules.auth.view.MainActivity"/>
     </application>
 
 </manifest>

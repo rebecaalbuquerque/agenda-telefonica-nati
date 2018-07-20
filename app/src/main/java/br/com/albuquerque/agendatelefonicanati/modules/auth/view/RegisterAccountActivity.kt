@@ -3,6 +3,7 @@ package br.com.albuquerque.agendatelefonicanati.modules.auth.view
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import kotlinx.android.synthetic.main.activity_register_account.*
@@ -14,6 +15,15 @@ class RegisterAccountActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register_account)
 
         configurarBotaoCadastrar()
+
+    }
+
+    private fun configurarBtnTeste() {
+        AlertDialog.Builder(this)
+                .setMessage("Usuário criado com sucesso!")
+                .setTitle("Mensagem")
+                .create()
+                .show()
 
     }
 

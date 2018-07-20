@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface AuthApi {
 
     @POST("auth")
-    fun criarConta(@Body usuario: User): Observable<String>
+    fun criarConta(@Body usuario: User): Observable<ApiResponse>
 
     @POST("auth/sign_in")
     fun fazerLogin(@Body usuario: User): Observable<Response<ApiResponse>>

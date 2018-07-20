@@ -40,7 +40,7 @@ object AuthNetwork {
 
     }
 
-    fun fazerLogin(email: String, senha: String, onSucess: () -> Unit, onError: () -> Unit){
+    fun fazerLogin(email: String, senha: String, onSucess: (user: User) -> Unit, onError: () -> Unit){
 
 
         authAPI.fazerLogin(User(email = email, senha = senha))
@@ -55,9 +55,7 @@ object AuthNetwork {
                             user.client = response?.headers()?.get("client")
                             user.accessToken = response?.headers()?.get("access-token")
 
-                            AuthDatabase.salvarUsuarioLogado(user) {
-                                onSucess()
-                            }
+                            onSucess(user)
                         }
 
                     }

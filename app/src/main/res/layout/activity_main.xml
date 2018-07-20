@@ -86,7 +86,6 @@
                 android:id="@+id/btnAuthCadastrar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="@string/btnCadastrar" />

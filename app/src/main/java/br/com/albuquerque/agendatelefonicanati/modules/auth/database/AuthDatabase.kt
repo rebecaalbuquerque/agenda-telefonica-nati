@@ -22,4 +22,16 @@ object AuthDatabase {
         return Realm.getDefaultInstance().where(User::class.java).findFirst()
     }
 
+    fun clearDataBase(){
+
+        Realm.getDefaultInstance().use { realm ->
+
+            realm.beginTransaction()
+            realm.deleteAll()
+            realm.commitTransaction()
+
+        }
+
+    }
+
 }

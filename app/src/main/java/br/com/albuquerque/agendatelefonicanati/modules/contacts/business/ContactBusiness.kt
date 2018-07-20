@@ -2,20 +2,44 @@ package br.com.albuquerque.agendatelefonicanati.modules.contacts.business
 
 import android.util.Log
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
+import br.com.albuquerque.agendatelefonicanati.modules.contacts.database.ContactDatabase
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.network.ContactNetwork
 
 object ContactBusiness {
 
-    fun listarContatos(onSuccess: () -> Unit){
+    fun atualizarContatos(onSuccess: () -> Unit) {
+
         val headers = AuthBusiness.getHeaders()
 
-        return ContactNetwork.listarContatos(headers) {
+        ContactNetwork.requestContatos(headers) { contatos ->
 
-            Log.d("TAG", "Quantidade de contatos: ${it.size}")
+            ContactDatabase.salvarContatos(contatos) {
+                onSuccess()
+            }
+
+        }
+
+    }
+
+    fun buscarContatos(): List<Contact>{
+        return ContactDatabase.buscarContatos()
+    }
+
+    fun criarNovoContato(contato: Contact, onSuccess: () -> Unit, onError: () -> Unit){
+
+        val headers = AuthBusiness.getHeaders()
+
+        ContactNetwork.requestNovoContato(headers, contato, {
 
             onSuccess()
-        }
+
+        }, {
+
+            onError()
+
+        })
+
     }
 
 }

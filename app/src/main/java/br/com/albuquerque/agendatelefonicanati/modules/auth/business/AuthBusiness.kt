@@ -20,8 +20,12 @@ object AuthBusiness {
 
     fun fazerLogin(email: String, senha: String, onSuccess: ()-> Unit, onError: (msg: String)-> Unit){
 
-        AuthNetwork.fazerLogin(email, senha, {
-            onSuccess()
+        AuthDatabase.clearDataBase()
+
+        AuthNetwork.fazerLogin(email, senha, { user ->
+            AuthDatabase.salvarUsuarioLogado(user) {
+                onSuccess()
+            }
         }, {
 
             onError("Erro ao fazer login.")
