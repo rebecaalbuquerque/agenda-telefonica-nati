@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".modules.contacts.view.ContactsActivity" />
         <activity android:name=".modules.contacts.view.ContactDetailActivity" />
-        <activity android:name=".NewContactActivity"></activity>
+        <activity android:name=".modules.contacts.view.NewContactActivity" />
+        <activity android:name=".modules.auth.view.RegisterAccountActivity"></activity>
     </application>
 
 </manifest>

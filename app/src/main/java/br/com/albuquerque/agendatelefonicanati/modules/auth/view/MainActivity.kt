@@ -19,7 +19,15 @@ class MainActivity : AppCompatActivity() {
         Realm.init(this)
 
         configurarBotaoLogin()
+        configurarBotaoCadastrar()
 
+    }
+
+    private fun configurarBotaoCadastrar() {
+        btnAuthCadastrar.setOnClickListener {
+            val intentDetalheActivity = Intent(this, RegisterAccountActivity::class.java)
+            startActivity(intentDetalheActivity)
+        }
     }
 
     private fun configurarBotaoLogin() {
@@ -27,17 +35,14 @@ class MainActivity : AppCompatActivity() {
         btnAuthLogin.setOnClickListener{
 
             AuthBusiness.fazerLogin(txtAuthEmail.text.toString(), txtAuthSenha.text.toString(), {
-                irParaContatos()
+                val intentDetalheActivity = Intent(this, ContactsActivity::class.java)
+                startActivity(intentDetalheActivity)
+
             }, {
                 Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).show()
             })
 
         }
 
-    }
-
-    private fun irParaContatos(){
-        val intentDetalheActivity = Intent(this, ContactsActivity::class.java)
-        startActivity(intentDetalheActivity)
     }
 }
