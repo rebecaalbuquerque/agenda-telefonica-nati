@@ -66,4 +66,8 @@ object AuthNetwork {
 
     }
 
+    fun fazerLogout(){
+
+    }
+
 }

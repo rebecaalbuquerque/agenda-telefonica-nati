@@ -16,4 +16,7 @@ interface ContactApi {
     @POST("contacts")
     fun criarContato(@HeaderMap headers: Map<String, String>, @Body contato: Contact): Observable<Response<Contact>>
 
+    @DELETE("contacts/{contact}")
+    fun excluirContato(@HeaderMap headers: Map<String, String>, @Path("contact") id: Int): Observable<String>
+
 }

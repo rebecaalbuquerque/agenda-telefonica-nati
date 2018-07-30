@@ -44,6 +44,15 @@ object ContactNetwork {
                 })
     }
 
+    fun requestExcluirContato(headers: Map<String, String>, id: Int, onSuccess: () -> Unit){
+        contactApi.excluirContato(headers, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    onSuccess()
+                })
+    }
+
     fun requestNovoContato(headers: Map<String, String>, contato: Contact, onSuccess: () -> Unit, onError: () -> Unit){
         contactApi.criarContato(headers, contato)
                 .subscribeOn(Schedulers.io())

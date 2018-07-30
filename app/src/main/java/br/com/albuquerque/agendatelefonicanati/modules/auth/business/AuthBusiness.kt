@@ -34,6 +34,12 @@ object AuthBusiness {
 
     }
 
+    fun fazerLogout(){
+        //AuthDatabase.clearDataBase()
+
+
+    }
+
     fun buscarUsuarioLogado(): User? {
         return AuthDatabase.buscarUsuarioLogado()
     }

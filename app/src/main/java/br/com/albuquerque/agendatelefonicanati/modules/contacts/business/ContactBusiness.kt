@@ -46,4 +46,12 @@ object ContactBusiness {
 
     }
 
+    fun excluirContato(idContato: Int, onSuccess: () -> Unit){
+        val headers = AuthBusiness.getHeaders()
+
+        ContactNetwork.requestExcluirContato(headers, idContato,{
+            onSuccess()
+        })
+    }
+
 }
