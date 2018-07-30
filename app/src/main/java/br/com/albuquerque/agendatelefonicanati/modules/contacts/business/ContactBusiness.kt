@@ -26,6 +26,10 @@ object ContactBusiness {
         return ContactDatabase.buscarContatos()
     }
 
+    fun buscarContato(contatoId: Int): Contact{
+        return ContactDatabase.buscarContato(contatoId)
+    }
+
     fun criarNovoContato(contato: Contact, onSuccess: () -> Unit, onError: () -> Unit){
 
         val headers = AuthBusiness.getHeaders()

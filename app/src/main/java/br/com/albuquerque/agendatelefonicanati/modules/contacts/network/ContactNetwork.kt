@@ -35,6 +35,15 @@ object ContactNetwork {
 
     }
 
+    fun requestContato(headers: Map<String, String>, id: Int, onSuccess: (contato: Contact) -> Unit){
+        contactApi.buscarContato(headers, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    onSuccess(it)
+                })
+    }
+
     fun requestNovoContato(headers: Map<String, String>, contato: Contact, onSuccess: () -> Unit, onError: () -> Unit){
         contactApi.criarContato(headers, contato)
                 .subscribeOn(Schedulers.io())

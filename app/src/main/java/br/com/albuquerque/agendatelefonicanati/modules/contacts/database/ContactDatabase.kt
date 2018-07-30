@@ -24,4 +24,8 @@ object ContactDatabase {
         return Realm.getDefaultInstance().where(Contact::class.java).findAll()
     }
 
+    fun buscarContato(contatoId: Int): Contact{
+        return (Realm.getDefaultInstance().where(Contact::class.java).findAll().first{it.id == contatoId})
+    }
+
 }
