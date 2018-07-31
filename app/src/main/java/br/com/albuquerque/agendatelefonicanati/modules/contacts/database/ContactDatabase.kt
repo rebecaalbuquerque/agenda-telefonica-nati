@@ -28,4 +28,14 @@ object ContactDatabase {
         return (Realm.getDefaultInstance().where(Contact::class.java).findAll().first{it.id == contatoId})
     }
 
+    fun editarContato(contatoAtualizado: Contact, onSuccess: () -> Unit){
+        Realm.getDefaultInstance().use { realm ->
+            realm.beginTransaction()
+            realm.copyToRealmOrUpdate(contatoAtualizado)
+            realm.commitTransaction()
+
+            onSuccess()
+        }
+    }
+
 }

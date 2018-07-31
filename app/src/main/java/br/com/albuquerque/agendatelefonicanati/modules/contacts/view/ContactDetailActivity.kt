@@ -8,8 +8,8 @@ import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.Contact
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_contact_detail.*
 import android.content.DialogInterface
-import android.R.string.ok
-import android.support.design.widget.Snackbar
+import android.content.Intent
+import android.util.Log
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -36,7 +36,9 @@ class ContactDetailActivity : AppCompatActivity() {
                     .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
                         idContato?.let {contato ->
                             ContactBusiness.excluirContato(contato, {
-
+                                Log.d("TAG", it)
+                            },{
+                                Log.d("TAG", it)
                             })
                         }
                     })
@@ -47,11 +49,20 @@ class ContactDetailActivity : AppCompatActivity() {
                     .show()
 
         }
+
     }
 
     private fun configurarBtnEditarContato() {
         btnEditarContato.setOnClickListener {
+            val intentEditar = Intent(it.context, NewContactActivity::class.java)
+            val extraBundle = Bundle()
 
+            idContato?.let { idContato ->
+                extraBundle.putInt("idContatoEditar", idContato)
+            }
+
+            intentEditar.putExtras(extraBundle)
+            this.startActivity(intentEditar)
         }
     }
 

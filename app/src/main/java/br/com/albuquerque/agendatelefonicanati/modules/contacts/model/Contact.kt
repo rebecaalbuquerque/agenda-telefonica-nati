@@ -1,10 +1,11 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.model
 
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 open class Contact(): RealmObject() {
 
-    var id: Int? = null
+    @PrimaryKey var id: Int? = null
     var name: String? = null
     var email: String? = null
     var phone: String? = null

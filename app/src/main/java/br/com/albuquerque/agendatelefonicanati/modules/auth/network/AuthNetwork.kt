@@ -42,7 +42,6 @@ object AuthNetwork {
 
     fun fazerLogin(email: String, senha: String, onSucess: (user: User) -> Unit, onError: () -> Unit){
 
-
         authAPI.fazerLogin(User(email = email, senha = senha))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -57,7 +56,6 @@ object AuthNetwork {
 
                             onSucess(user)
                         }
-
                     }
 
                 },{
@@ -66,7 +64,15 @@ object AuthNetwork {
 
     }
 
-    fun fazerLogout(){
+    fun fazerLogout(headers: Map<String, String>, onSucess: () -> Unit, onError: () -> Unit){
+        authAPI.fazerLogout(headers)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    onSucess()
+                }, {
+                    onError()
+                })
 
     }
 

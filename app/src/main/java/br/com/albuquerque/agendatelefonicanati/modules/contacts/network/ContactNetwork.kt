@@ -30,7 +30,7 @@ object ContactNetwork {
                 .subscribe ({
                     onSuccess(it)
                 },{
-                    Log.d("", "")
+                    Log.d("TAG", "")
                 })
 
     }
@@ -44,12 +44,14 @@ object ContactNetwork {
                 })
     }
 
-    fun requestExcluirContato(headers: Map<String, String>, id: Int, onSuccess: () -> Unit){
+    fun requestExcluirContato(headers: Map<String, String>, id: Int, onSuccess: () -> Unit, onError: () -> Unit){
         contactApi.excluirContato(headers, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     onSuccess()
+                },{
+                    onError()
                 })
     }
 
@@ -60,6 +62,21 @@ object ContactNetwork {
                 .subscribe({
 
                     onSuccess()
+
+                }, {
+                    onError()
+                })
+    }
+
+    fun requestEditarContato(headers: Map<String, String>, contato: Contact, onSuccess: (contato: Contact) -> Unit, onError: () -> Unit){
+        contactApi.editarContato(headers, contato.id!!, contato)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                    it.body()?.let {
+                        onSuccess(it)
+                    }
 
                 }, {
                     onError()

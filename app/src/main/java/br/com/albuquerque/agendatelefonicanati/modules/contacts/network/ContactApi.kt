@@ -19,4 +19,7 @@ interface ContactApi {
     @DELETE("contacts/{contact}")
     fun excluirContato(@HeaderMap headers: Map<String, String>, @Path("contact") id: Int): Observable<String>
 
+    @PUT("contacts/{contact}")
+    fun editarContato(@HeaderMap headers: Map<String, String>, @Path("contact") id: Int, @Body contato: Contact): Observable<Response<Contact>>
+
 }

@@ -4,6 +4,8 @@ import br.com.albuquerque.agendatelefonicanati.modules.auth.model.User
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -14,5 +16,6 @@ interface AuthApi {
     @POST("auth/sign_in")
     fun fazerLogin(@Body usuario: User): Observable<Response<ApiResponse>>
 
-
+    @DELETE("auth/sign_out")
+    fun fazerLogout(@HeaderMap headers: Map<String, String>): Observable<Response<Any>>
 }

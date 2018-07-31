@@ -20,24 +20,25 @@ object AuthBusiness {
 
     fun fazerLogin(email: String, senha: String, onSuccess: ()-> Unit, onError: (msg: String)-> Unit){
 
-        AuthDatabase.clearDataBase()
-
         AuthNetwork.fazerLogin(email, senha, { user ->
             AuthDatabase.salvarUsuarioLogado(user) {
                 onSuccess()
             }
         }, {
-
             onError("Erro ao fazer login.")
-
         })
 
     }
 
-    fun fazerLogout(){
-        //AuthDatabase.clearDataBase()
+    fun fazerLogout(onSuccess: (msg: String)-> Unit, onError: (msg: String)-> Unit){
+        val headers = AuthBusiness.getHeaders()
 
-
+        AuthNetwork.fazerLogout(headers,{
+            AuthDatabase.clearDataBase()
+            onSuccess("Logout")
+        },{
+            onError("Erro ao efetuar logout.")
+        })
     }
 
     fun buscarUsuarioLogado(): User? {
