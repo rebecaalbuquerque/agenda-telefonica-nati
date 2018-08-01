@@ -35,7 +35,10 @@ object ContactBusiness {
         val headers = AuthBusiness.getHeaders()
 
         ContactNetwork.requestNovoContato(headers, contato, {
-            onSuccess()
+            ContactDatabase.criarNovoContato(contato,{
+                onSuccess()
+            })
+
         }, {
             onError()
         })

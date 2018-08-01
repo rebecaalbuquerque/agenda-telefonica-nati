@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.MenuItem
 import android.widget.TextView
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
@@ -25,28 +26,42 @@ class NewContactActivity : AppCompatActivity() {
         configurarEditarContato()
         configurarBtnAdicionarContato()
         configurarDatePickerNascimento()
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+        if (id == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun configurarEditarContato() {
         val idContatoEditar = intent.getIntExtra("idContatoEditar", -1)
-        val contato = ContactBusiness.buscarContato(idContatoEditar)
         var dataNascimento: String? = null
+        var contato: Contact? = null
 
         if(idContatoEditar!= -1){
+            contato = ContactBusiness.buscarContato(idContatoEditar)
             btnCriarContato.text = "Editar"
             isToEdit = true
         }
 
-        contato.birth?.let {
-            dataNascimento = SimpleDateFormat("dd/MM/yyyy").format(Date(it * 1000))
+        contato?.let{contatoAux ->
+            contatoAux.birth?.let {
+                dataNascimento = SimpleDateFormat("dd/MM/yyyy").format(Date(it * 1000))
+            }
+
+            contactName.setText(contato.name)
+            contactEmail.setText(contato.email)
+            contactTelefone.setText(contato.phone)
+            contactFoto.setText(contato.picture)
+            contactDataNasc.setText(dataNascimento)
+
         }
-
-        contactName.setText(contato.name)
-        contactEmail.setText(contato.email)
-        contactTelefone.setText(contato.phone)
-        contactFoto.setText(contato.picture)
-        contactDataNasc.setText(dataNascimento)
-
     }
 
     private fun configurarDatePickerNascimento() {
@@ -93,9 +108,9 @@ class NewContactActivity : AppCompatActivity() {
                 contatoEditado.id = intent.getIntExtra("idContatoEditar", -1)
 
                 ContactBusiness.editarContato(contatoEditado,{
-                    Log.d("TAG", it)
+                    Snackbar.make(btnCriarContato, it, Snackbar.LENGTH_SHORT).show()
                 }, {
-                    Log.d("TAG", it)
+                    Snackbar.make(btnCriarContato, it, Snackbar.LENGTH_SHORT).show()
                 })
 
             }

@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar
 import android.util.Log
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
-import br.com.albuquerque.agendatelefonicanati.modules.auth.model.User
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.view.ContactsActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,10 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         Realm.init(this)
 
-        if(AuthBusiness.buscarUsuarioLogado() == null){
-            startActivity(Intent(this, ContactsActivity::class.java))
+        if(AuthBusiness.buscarUsuarioLogado() != null){
+            val intentAuth = Intent(this, ContactsActivity::class.java)
+            startActivity(intentAuth)
+            finish()
         }
-
 
         configurarBotaoLogin()
         configurarBotaoCadastrar()
@@ -42,8 +42,9 @@ class MainActivity : AppCompatActivity() {
         btnAuthLogin.setOnClickListener{
 
             AuthBusiness.fazerLogin(txtAuthEmail.text.toString(), txtAuthSenha.text.toString(), {
-                val intentDetalheActivity = Intent(this, ContactsActivity::class.java)
-                startActivity(intentDetalheActivity)
+                val intentContatosActivity = Intent(this, ContactsActivity::class.java)
+                startActivity(intentContatosActivity)
+                finish()
 
             }, {
                 Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).show()

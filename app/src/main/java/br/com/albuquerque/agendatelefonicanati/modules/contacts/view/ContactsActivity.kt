@@ -20,6 +20,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.support.v4.widget.SwipeRefreshLayout
+import br.com.albuquerque.agendatelefonicanati.modules.auth.view.MainActivity
 
 
 class ContactsActivity : AppCompatActivity() {
@@ -47,11 +49,13 @@ class ContactsActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
 
             builder
-                    .setMessage("Você deseja realmente excluir esse contato?")
-                    .setTitle("Excluir contato")
+                    .setMessage("Você deseja realmente sair?")
+                    .setTitle("Logout")
                     .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
                         AuthBusiness.fazerLogout({
-                            Log.d("TAG", it)
+                            val intentLogout = Intent(this, MainActivity::class.java)
+                            startActivity(intentLogout)
+                            finish()
                         },{
                             Log.d("TAG", it)
                         })
@@ -96,6 +100,27 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun configurarContatos() {
         rvListaContatos.adapter = adapter
+
+        swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            refreshItems()
+        })
+
+    }
+
+    fun refreshItems() {
+        // Load items
+        adapter.refresh()
+
+        // Load complete
+        onItemsLoadComplete()
+    }
+
+    fun onItemsLoadComplete() {
+        // Update the adapter and notify data set changed
+        rvListaContatos.adapter.notifyDataSetChanged()
+
+        // Stop refresh animation
+        swipeRefreshLayout.setRefreshing(false)
     }
 
 

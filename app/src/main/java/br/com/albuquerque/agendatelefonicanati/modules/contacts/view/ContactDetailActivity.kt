@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_contact_detail.*
 import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
+import android.view.MenuItem
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -20,10 +21,21 @@ class ContactDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_detail)
 
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         configurarContatoSelecionado()
         configurarBtnEditarContato()
         configurarBtnExcluirContato()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+        if (id == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun configurarBtnExcluirContato() {

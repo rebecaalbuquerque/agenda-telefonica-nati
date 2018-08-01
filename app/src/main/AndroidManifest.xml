@@ -22,14 +22,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".modules.contacts.view.ContactsActivity" />
+        <activity android:name=".modules.contacts.view.ContactsActivity"/>
 
-        <activity android:name=".modules.contacts.view.ContactDetailActivity" />
+        <activity android:name=".modules.contacts.view.ContactDetailActivity"/>
 
-        <activity android:name=".modules.contacts.view.NewContactActivity" />
+        <activity android:name=".modules.contacts.view.NewContactActivity"/>
 
-        <activity android:name=".modules.auth.view.RegisterAccountActivity"
-            android:parentActivityName=".modules.auth.view.MainActivity"/>
+        <activity android:name=".modules.auth.view.RegisterAccountActivity"/>
     </application>
 
 </manifest>

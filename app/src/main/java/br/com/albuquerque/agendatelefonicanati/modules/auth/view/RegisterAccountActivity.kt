@@ -18,26 +18,23 @@ class RegisterAccountActivity : AppCompatActivity() {
 
     }
 
-    private fun configurarBtnTeste() {
-        AlertDialog.Builder(this)
-                .setMessage("Usuário criado com sucesso!")
-                .setTitle("Mensagem")
-                .create()
-                .show()
-
-    }
-
     private fun configurarBotaoCadastrar() {
 
         btnCadastrarConta.setOnClickListener {
 
-            AuthBusiness.registrar(txtEmail.text.toString(), txtSenha.text.toString(), txtConfirmarSenha.text.toString(),{
+            if(txtSenha.text.isEmpty() || txtSenha.text.length < 8){
+                txtSenha.setError("A senha deve conter pelo menos 8 caracteres.")
+            } else {
+                AuthBusiness.registrar(txtEmail.text.toString(), txtSenha.text.toString(), txtConfirmarSenha.text.toString(),{
 
-                Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
 
-            }, {
-                Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
-            })
+                }, {
+                    Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
+                })
+            }
+
+
 
         }
 
