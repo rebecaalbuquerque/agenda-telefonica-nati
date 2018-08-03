@@ -17,13 +17,10 @@ import java.util.*
 
 class NewContactActivity : AppCompatActivity() {
 
-    private var isToEdit: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_contact)
 
-        configurarEditarContato()
         configurarBtnAdicionarContato()
         configurarDatePickerNascimento()
 
@@ -37,31 +34,6 @@ class NewContactActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun configurarEditarContato() {
-        val idContatoEditar = intent.getIntExtra("idContatoEditar", -1)
-        var dataNascimento: String? = null
-        var contato: Contact? = null
-
-        if(idContatoEditar!= -1){
-            contato = ContactBusiness.buscarContato(idContatoEditar)
-            btnCriarContato.text = "Editar"
-            isToEdit = true
-        }
-
-        contato?.let{contatoAux ->
-            contatoAux.birth?.let {
-                dataNascimento = SimpleDateFormat("dd/MM/yyyy").format(Date(it * 1000))
-            }
-
-            contactName.setText(contato.name)
-            contactEmail.setText(contato.email)
-            contactTelefone.setText(contato.phone)
-            contactFoto.setText(contato.picture)
-            contactDataNasc.setText(dataNascimento)
-
-        }
     }
 
     private fun configurarDatePickerNascimento() {
@@ -90,33 +62,16 @@ class NewContactActivity : AppCompatActivity() {
 
     private fun configurarBtnAdicionarContato() {
 
-        if(!isToEdit){
-            btnCriarContato.setOnClickListener {
-                val timestampNasc = SimpleDateFormat("dd/MM/yyyy").parse(contactDataNasc.text.toString()).time/1000
-                val novoContato = Contact(name=contactName.text.toString(), email = contactEmail.text.toString(), phone = contactTelefone.text.toString(), picture = contactFoto.text.toString(), birth = timestampNasc)
+        btnCriarContato.setOnClickListener {
+            val timestampNasc = SimpleDateFormat("dd/MM/yyyy").parse(contactDataNasc.text.toString()).time/1000
+            val novoContato = Contact(name=contactName.text.toString(), email = contactEmail.text.toString(), phone = contactTelefone.text.toString(), picture = contactFoto.text.toString(), birth = timestampNasc)
 
-                ContactBusiness.criarNovoContato(novoContato, {
-                    Snackbar.make(btnCriarContato, "Contato criado com sucesso!", Snackbar.LENGTH_SHORT).show()
-                }, {
-                    Snackbar.make(btnCriarContato, "Erro ao criar contato!", Snackbar.LENGTH_SHORT).show()
-                })
-            }
-        } else {
-            btnCriarContato.setOnClickListener {
-                val timestampNasc = SimpleDateFormat("dd/MM/yyyy").parse(contactDataNasc.text.toString()).time/1000
-                val contatoEditado = Contact(name=contactName.text.toString(), email = contactEmail.text.toString(), phone = contactTelefone.text.toString(), picture = contactFoto.text.toString(), birth = timestampNasc)
-                contatoEditado.id = intent.getIntExtra("idContatoEditar", -1)
-
-                ContactBusiness.editarContato(contatoEditado,{
-                    Snackbar.make(btnCriarContato, it, Snackbar.LENGTH_SHORT).show()
-                }, {
-                    Snackbar.make(btnCriarContato, it, Snackbar.LENGTH_SHORT).show()
-                })
-
-            }
+            ContactBusiness.criarNovoContato(novoContato, {
+                Snackbar.make(btnCriarContato, "Contato criado com sucesso!", Snackbar.LENGTH_SHORT).show()
+            }, {
+                Snackbar.make(btnCriarContato, "Erro ao criar contato!", Snackbar.LENGTH_SHORT).show()
+            })
         }
-
-
 
     }
 

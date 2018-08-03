@@ -80,8 +80,10 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun requestContatos() {
 
-        ContactBusiness.atualizarContatos {
+        swipeRefreshLayout.isRefreshing = true
 
+        ContactBusiness.atualizarContatos {
+            swipeRefreshLayout.isRefreshing = false
             adapter.refresh { hasContent ->
 
                 if(hasContent) {

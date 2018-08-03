@@ -1,126 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modules.contacts.view.ContactDetailActivity">
+    android:focusableInTouchMode="true"
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/ivFotoContato"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/llNome"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/ivFotoContato">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".modules.contacts.view.ContactDetailActivity">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_person_black_24dp" />
+            android:id="@+id/ivFotoContato"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/lblNomeContato"
+        <LinearLayout
+            android:id="@+id/llNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome"
-            android:textSize="20sp" />
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivFotoContato">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_person_black_24dp"
+                android:tint="@color/colorPrimaryDark" />
 
-    <LinearLayout
-        android:id="@+id/llEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/llNome">
+            <EditText
+                android:id="@+id/txtNomeContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Nome"
+                android:textSize="20sp" />
 
-        <ImageView
-            android:src="@drawable/ic_email_black_24dp"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblEmailContato"
-            android:text="Email"
-            android:textSize="20sp"
+        <LinearLayout
+            android:id="@+id/llEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/llNome">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_email_black_24dp"
+                android:tint="@color/colorPrimaryDark" />
 
-    <LinearLayout
-        android:id="@+id/llTelefone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/llEmail">
+            <EditText
+                android:id="@+id/txtEmailContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Email"
+                android:textSize="20sp" />
 
-        <ImageView
-            android:src="@drawable/ic_local_phone_black_24dp"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginRight="5dp"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblTelefoneContato"
-            android:text="Telefone"
-            android:textSize="20sp"
+        <LinearLayout
+            android:id="@+id/llTelefone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/llEmail">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_local_phone_black_24dp"
+                android:tint="@color/colorPrimaryDark" />
 
-    <Button
-        android:id="@+id/btnEditarContato"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="Editar"
-        android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llTelefone" />
+            <EditText
+                android:id="@+id/txtTelefoneContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Telefone"
+                android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btnExcluirContato"
-        android:backgroundTint="@color/colorAccent"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Excluir"
-        android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEditarContato" />
+        </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/llNascimento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/llTelefone">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_local_phone_black_24dp"
+                android:tint="@color/colorPrimaryDark" />
+
+            <EditText
+                android:id="@+id/txtNascimento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Telefone"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnEditarContato"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Editar"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llNascimento" />
+
+        <Button
+            android:id="@+id/btnExcluirContato"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Excluir"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEditarContato" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
