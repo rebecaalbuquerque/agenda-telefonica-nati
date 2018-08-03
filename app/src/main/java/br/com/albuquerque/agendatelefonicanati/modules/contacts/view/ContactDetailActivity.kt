@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.MenuItem
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.TextView
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
@@ -39,18 +40,6 @@ class ContactDetailActivity : AppCompatActivity() {
 
     }
 
-    private val watcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(s: Editable) {
-            if (txtNomeContato.text.isEmpty() || txtTelefoneContato.text.isEmpty() || txtEmailContato.text.isEmpty() || txtNascimento.text.isEmpty()) {
-                btnEditarContato.setEnabled(false)
-            } else {
-                btnEditarContato.setEnabled(true)
-            }
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.getItemId()
         if (id == android.R.id.home) {
@@ -66,6 +55,8 @@ class ContactDetailActivity : AppCompatActivity() {
         idContato = idContatoExtra
 
         contatoSelecionado?.let {
+            supportActionBar!!.title = it.name
+
             txtNomeContato.setText(it.name)
             txtEmailContato.setText(it.email)
             Picasso.with(this).load(it.picture).into(ivFotoContato)
@@ -90,11 +81,10 @@ class ContactDetailActivity : AppCompatActivity() {
                     .setTitle("Excluir contato")
                     .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
                         idContato?.let {contato ->
-                            ContactBusiness.excluirContato(contato, {
-                                Log.d("TAG", it)
-                            },{
-                                Log.d("TAG", it)
-                            })
+                            ContactBusiness.excluirContato(contato) {
+                                Snackbar.make(btnExcluirContato, it, Snackbar.LENGTH_SHORT).show()
+                                finish()
+                            }
                         }
                     })
                     .setNegativeButton("Não", DialogInterface.OnClickListener { dialog, id ->
@@ -116,7 +106,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
             } else {
                 btnEditarContato.text = "Editar"
-                editarContato()
+                attemptEditar()
                 desabilitarCampos()
             }
 
@@ -162,6 +152,41 @@ class ContactDetailActivity : AppCompatActivity() {
         txtEmailContato.isEnabled = false
         txtTelefoneContato.isEnabled = false
         txtNascimento.isEnabled = false
+    }
+
+    private fun attemptEditar(){
+        // Reseta os errors
+        txtNomeContato.error = null
+        txtEmailContato.error = null
+        txtTelefoneContato.error = null
+        txtNascimento.error = null
+
+        var enviarRequest = true
+
+        // Valida campos
+        if(TextUtils.isEmpty(txtNomeContato.text.toString().trim())){
+            txtNomeContato.error = getString(R.string.error_input)
+            enviarRequest = false
+        }
+
+        if(TextUtils.isEmpty(txtEmailContato.text.toString().trim())){
+            txtEmailContato.error = getString(R.string.error_input)
+            enviarRequest = false
+        }
+
+        if(TextUtils.isEmpty(txtTelefoneContato.text.toString().trim())){
+            txtTelefoneContato.error = getString(R.string.error_input)
+            enviarRequest = false
+        }
+
+        if(TextUtils.isEmpty(txtNascimento.text.toString().trim())){
+            txtNascimento.error = getString(R.string.error_input)
+            enviarRequest = false
+        }
+
+        if(enviarRequest){
+            editarContato()
+        }
     }
 
     private fun editarContato(){

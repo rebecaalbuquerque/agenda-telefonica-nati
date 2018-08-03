@@ -34,8 +34,8 @@ object ContactBusiness {
 
         val headers = AuthBusiness.getHeaders()
 
-        ContactNetwork.requestNovoContato(headers, contato, {
-            ContactDatabase.criarNovoContato(contato,{
+        ContactNetwork.requestNovoContato(headers, contato, { contatoResponse ->
+            ContactDatabase.criarNovoContato(contatoResponse,{
                 onSuccess()
             })
 
@@ -45,13 +45,16 @@ object ContactBusiness {
 
     }
 
-    fun excluirContato(idContato: Int, onSuccess: (msg: String) -> Unit, onError: (msg: String) -> Unit){
+    fun excluirContato(idContato: Int, onSuccess: (msg: String) -> Unit){
         val headers = AuthBusiness.getHeaders()
 
         ContactNetwork.requestExcluirContato(headers, idContato,{
-            onSuccess("Contato excluido com sucesso.")
-        },{
-            onError("Erro ao excluir contato.")
+            val contato = ContactDatabase.buscarContato(idContato)
+
+            ContactDatabase.excluirContato(contato,{
+                onSuccess("Contato excluido com sucesso.")
+
+            })
         })
     }
 

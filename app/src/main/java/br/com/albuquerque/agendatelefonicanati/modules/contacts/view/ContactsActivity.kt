@@ -8,20 +8,14 @@ import android.view.Menu
 import android.view.View
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
-import br.com.albuquerque.agendatelefonicanati.modules.auth.model.User
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.adapter.ContactsAdapter
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
-import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import kotlinx.android.synthetic.main.activity_contacts.*
-import kotlinx.android.synthetic.main.activity_new_contact.*
-import android.R.menu
 import android.content.DialogInterface
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.support.v4.widget.SwipeRefreshLayout
-import br.com.albuquerque.agendatelefonicanati.modules.auth.view.MainActivity
+import br.com.albuquerque.agendatelefonicanati.modules.auth.view.AuthActivity
 
 
 class ContactsActivity : AppCompatActivity() {
@@ -32,9 +26,17 @@ class ContactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
 
+        supportActionBar!!.title = "Meus contatos"
+
         configurarContatos()
         requestContatos()
         configurarBotaoNovoContato()
+    }
+
+    override fun onStart() {
+        atualizarContatos()
+
+        super.onStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,7 +55,7 @@ class ContactsActivity : AppCompatActivity() {
                     .setTitle("Logout")
                     .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
                         AuthBusiness.fazerLogout({
-                            val intentLogout = Intent(this, MainActivity::class.java)
+                            val intentLogout = Intent(this, AuthActivity::class.java)
                             startActivity(intentLogout)
                             finish()
                         },{
@@ -104,20 +106,17 @@ class ContactsActivity : AppCompatActivity() {
         rvListaContatos.adapter = adapter
 
         swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            refreshItems()
+            atualizarContatos()
         })
 
     }
 
-    fun refreshItems() {
-        // Load items
+    private fun atualizarContatos() {
         adapter.refresh()
-
-        // Load complete
         onItemsLoadComplete()
     }
 
-    fun onItemsLoadComplete() {
+    private fun onItemsLoadComplete() {
         // Update the adapter and notify data set changed
         rvListaContatos.adapter.notifyDataSetChanged()
 

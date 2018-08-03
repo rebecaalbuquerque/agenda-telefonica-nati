@@ -49,4 +49,16 @@ object ContactDatabase {
         }
     }
 
+    fun excluirContato(contato: Contact, onSuccess: () -> Unit){
+        Realm.getDefaultInstance().use { realm ->
+
+            realm.beginTransaction()
+            contato.deleteFromRealm()
+            realm.commitTransaction()
+
+            onSuccess()
+
+        }
+    }
+
 }
