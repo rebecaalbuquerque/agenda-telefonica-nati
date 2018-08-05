@@ -1,21 +1,22 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.view
 
+import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.support.design.widget.Snackbar
+import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import br.com.albuquerque.agendatelefonicanati.R
+import br.com.albuquerque.agendatelefonicanati.core.extensions.error
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
+import br.com.albuquerque.agendatelefonicanati.modules.auth.view.AuthActivity
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.adapter.ContactsAdapter
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
 import kotlinx.android.synthetic.main.activity_contacts.*
-import android.content.DialogInterface
-import android.support.v7.app.AlertDialog
-import android.view.MenuItem
-import android.support.v4.widget.SwipeRefreshLayout
-import br.com.albuquerque.agendatelefonicanati.modules.auth.view.AuthActivity
 
 
 class ContactsActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.getItemId() == R.id.btnLogout) {
+        if (item?.itemId == R.id.btnLogout) {
             val builder = AlertDialog.Builder(this)
 
             builder
@@ -60,7 +61,7 @@ class ContactsActivity : AppCompatActivity() {
                             startActivity(intentLogout)
                             finish()
                         },{
-                            Log.d("TAG", it)
+                            Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).error().show()
                         })
                         dialog.dismiss()
 

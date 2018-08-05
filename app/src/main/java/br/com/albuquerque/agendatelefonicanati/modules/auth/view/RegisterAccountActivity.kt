@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.MenuItem
 import br.com.albuquerque.agendatelefonicanati.R
+import br.com.albuquerque.agendatelefonicanati.core.extensions.error
+import br.com.albuquerque.agendatelefonicanati.core.extensions.success
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import kotlinx.android.synthetic.main.activity_register_account.*
 
@@ -78,10 +80,10 @@ class RegisterAccountActivity : AppCompatActivity() {
 
     private fun registerUser(){
         AuthBusiness.registrar(txtEmail.text.toString(), txtSenha.text.toString(), txtConfirmarSenha.text.toString(),{
-            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).success().show()
 
         }, {
-            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).error().show()
         })
     }
 }

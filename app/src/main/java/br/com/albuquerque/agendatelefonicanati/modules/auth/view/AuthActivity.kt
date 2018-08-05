@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import br.com.albuquerque.agendatelefonicanati.R
+import br.com.albuquerque.agendatelefonicanati.core.extensions.error
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.view.ContactsActivity
 import io.realm.Realm
@@ -46,7 +47,7 @@ class AuthActivity : AppCompatActivity() {
                 finish()
 
             }, {
-                Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).error().show()
             })
 
         }

@@ -9,11 +9,12 @@ import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.Contact
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_contact_detail.*
 import android.content.DialogInterface
+import android.graphics.Color
 import android.support.design.widget.Snackbar
-import android.util.Log
 import android.view.MenuItem
 import android.text.TextUtils
 import android.widget.TextView
+import br.com.albuquerque.agendatelefonicanati.core.extensions.*
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,7 +62,7 @@ class ContactDetailActivity : AppCompatActivity() {
             txtTelefoneContato.setText(it.phone)
 
             it.birth?.let{
-                txtNascimento.setText(SimpleDateFormat(getString(R.string.format_date_br)).format(Date( it * 1000)))
+                txtNascimento.text = SimpleDateFormat(getString(R.string.format_date_br)).format(Date( it * 1000))
             }
         }
 
@@ -80,8 +81,8 @@ class ContactDetailActivity : AppCompatActivity() {
                     .setPositiveButton(getString(R.string.popup_yes), DialogInterface.OnClickListener { dialog, id ->
                         idContato?.let {contato ->
                             ContactBusiness.excluirContato(contato) {
-                                Snackbar.make(btnExcluirContato, it, Snackbar.LENGTH_SHORT).show()
                                 finish()
+                                Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).success().show()
                             }
                         }
                     })
@@ -100,12 +101,15 @@ class ContactDetailActivity : AppCompatActivity() {
 
             if(btnEditarContato.text == getString(R.string.btnEditarContato)){
                 btnEditarContato.text = getString(R.string.btnSalvarContato)
+                txtNascimento.setTextColor(Color.BLACK)
                 habilitarCampos()
 
             } else {
                 btnEditarContato.text = getString(R.string.btnEditarContato)
                 attemptEditar()
                 desabilitarCampos()
+                txtNascimento.setTextColor(Color.parseColor("#808080"))
+                txtNascimento.alpha = 0.5F
             }
 
         }
@@ -178,8 +182,8 @@ class ContactDetailActivity : AppCompatActivity() {
             enviarRequest = false
         }
 
-        if(TextUtils.isEmpty(txtNascimento.text.toString().trim())){
-            txtNascimento.error = getString(R.string.error_input)
+        if(txtNascimento.text == "Data de Nascimento"){
+            Snackbar.make(btnEditarContato, "Selecione a data de nascimento.", Snackbar.LENGTH_SHORT).show()
             enviarRequest = false
         }
 
@@ -197,18 +201,15 @@ class ContactDetailActivity : AppCompatActivity() {
             contatoEditado.picture = it.picture
         }
 
-        Log.d("TAG", "${contato}")
-
-
-
         if(contato!!.compareTo(contatoEditado) == 1){
             ContactBusiness.editarContato(contatoEditado,{
-                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).success().show()
+
             }, {
-                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).error().show()
             })
         } else {
-            Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).noChanges().show()
         }
 
     }
