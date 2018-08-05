@@ -3,6 +3,7 @@ package br.com.albuquerque.agendatelefonicanati.modules.contacts.view
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.MenuItem
@@ -15,6 +16,9 @@ import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import kotlinx.android.synthetic.main.activity_new_contact.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.widget.EditText
+
+
 
 class NewContactActivity : AppCompatActivity() {
 
@@ -82,24 +86,18 @@ class NewContactActivity : AppCompatActivity() {
         var enviarRequest = true
 
         // Valida campos
-        if(TextUtils.isEmpty(contactFoto.text.toString().trim())){
-            contactFoto.error = getString(R.string.error_input)
-            enviarRequest = false
-        }
+        for(i: Int in 0..constraintNewContact.childCount){
+            val view = constraintNewContact.getChildAt(i)
 
-        if(TextUtils.isEmpty(contactName.text.toString().trim())){
-            contactName.error = getString(R.string.error_input)
-            enviarRequest = false
-        }
+            if(view is TextInputLayout){
 
-        if(TextUtils.isEmpty(contactEmail.text.toString().trim())){
-            contactEmail.error = getString(R.string.error_input)
-            enviarRequest = false
-        }
+                if(TextUtils.isEmpty(view.editText!!.text.toString().trim())){
+                    view.error = getString(R.string.error_input)
+                    enviarRequest = false
+                }
 
-        if(TextUtils.isEmpty(contactTelefone.text.toString().trim())){
-            contactTelefone.error = getString(R.string.error_input)
-            enviarRequest = false
+            }
+
         }
 
         if(contactDataNasc.text == "Data de Nascimento"){

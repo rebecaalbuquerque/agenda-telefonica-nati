@@ -3,6 +3,7 @@ package br.com.albuquerque.agendatelefonicanati.modules.auth.view
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.MenuItem
@@ -52,24 +53,15 @@ class RegisterAccountActivity : AppCompatActivity() {
         var enviarRequest = true
 
         // Valida campos
-        if(TextUtils.isEmpty(txtEmail.text.toString().trim())){
-            txtEmail.error = getString(R.string.error_input)
-            enviarRequest = false
-        }
+        for(i: Int in 0..llRegister.childCount){
+            val view = llRegister.getChildAt(i)
 
-        if(TextUtils.isEmpty(txtSenha.text.toString().trim())){
-            txtSenha.error = getString(R.string.error_input)
-            enviarRequest = false
-        }
-
-        if(txtSenha.text.length < 8){
-            txtSenha.error = getString(R.string.error_input_length)
-            enviarRequest = false
-        }
-
-        if(TextUtils.isEmpty(txtConfirmarSenha.text.toString().trim())){
-            txtConfirmarSenha.error = getString(R.string.error_input)
-            enviarRequest = false
+            if(view is TextInputLayout){
+                if(TextUtils.isEmpty(view.editText!!.text.toString().trim())){
+                    view.error = getString(R.string.error_input)
+                    enviarRequest = false
+                }
+            }
         }
 
         if(enviarRequest){

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TextInputLayout
+import android.text.TextUtils
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.core.extensions.error
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
@@ -40,17 +42,44 @@ class AuthActivity : AppCompatActivity() {
     private fun configurarBotaoLogin() {
 
         btnAuthLogin.setOnClickListener{
-
-            AuthBusiness.fazerLogin(txtAuthEmail.text.toString(), txtAuthSenha.text.toString(), {
-                val intentContatosActivity = Intent(this, ContactsActivity::class.java)
-                startActivity(intentContatosActivity)
-                finish()
-
-            }, {
-                Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).error().show()
-            })
-
+            attemptAuth()
         }
 
+    }
+
+    private fun attemptAuth(){
+        // Reseta errors
+        txtAuthEmail.error = null
+        txtAuthSenha.error = null
+
+        var enviarRequest = true
+
+        // Valida campos
+        for(i: Int in 0..linearFormAuth.childCount){
+            val view = linearFormAuth.getChildAt(i)
+
+            if(view is TextInputLayout){
+                if(TextUtils.isEmpty(view.editText!!.text.toString().trim())){
+                    view.error = getString(R.string.error_input)
+                    enviarRequest = false
+                }
+            }
+        }
+
+        if(enviarRequest){
+            auth()
+        }
+
+    }
+
+    private fun auth(){
+        AuthBusiness.fazerLogin(txtAuthEmail.text.toString(), txtAuthSenha.text.toString(), {
+            val intentContatosActivity = Intent(this, ContactsActivity::class.java)
+            startActivity(intentContatosActivity)
+            finish()
+
+        }, {
+            Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).error().show()
+        })
     }
 }
