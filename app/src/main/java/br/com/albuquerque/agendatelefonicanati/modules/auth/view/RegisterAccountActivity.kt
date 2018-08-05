@@ -17,17 +17,19 @@ class RegisterAccountActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register_account)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Registrar conta"
+        supportActionBar!!.title = getString(R.string.actionbar_register_user_title)
 
         configurarBotaoCadastrar()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.getItemId()
+        val id = item.itemId
+
         if (id == android.R.id.home) {
             onBackPressed()
             return true
         }
+
         return super.onOptionsItemSelected(item)
     }
 

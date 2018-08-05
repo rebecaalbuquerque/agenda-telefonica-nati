@@ -12,12 +12,9 @@ import android.content.DialogInterface
 import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.MenuItem
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.widget.TextView
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
-import java.lang.Comparable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +22,7 @@ import java.util.*
 class ContactDetailActivity : AppCompatActivity() {
 
     private var idContato: Int? = null
-    private var contatoSelecionado: Contact? = null
+    private var contato: Contact? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +38,8 @@ class ContactDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.getItemId()
+        val id = item.itemId
+
         if (id == android.R.id.home) {
             onBackPressed()
             return true
@@ -51,10 +49,10 @@ class ContactDetailActivity : AppCompatActivity() {
 
     private fun configurarContatoSelecionado(){
         val idContatoExtra = intent.getIntExtra("idContato", -1)
-        contatoSelecionado = ContactBusiness.buscarContato(idContatoExtra)
+        contato = ContactBusiness.buscarContato(idContatoExtra)
         idContato = idContatoExtra
 
-        contatoSelecionado?.let {
+        contato?.let {
             supportActionBar!!.title = it.name
 
             txtNomeContato.setText(it.name)
@@ -63,7 +61,7 @@ class ContactDetailActivity : AppCompatActivity() {
             txtTelefoneContato.setText(it.phone)
 
             it.birth?.let{
-                txtNascimento.setText(SimpleDateFormat("dd/MM/yyyy").format(Date( it * 1000)))
+                txtNascimento.setText(SimpleDateFormat(getString(R.string.format_date_br)).format(Date( it * 1000)))
             }
         }
 
@@ -77,9 +75,9 @@ class ContactDetailActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
 
             builder
-                    .setMessage("Você deseja realmente excluir esse contato?")
-                    .setTitle("Excluir contato")
-                    .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
+                    .setMessage(getString(R.string.popup_msg_delete_contact))
+                    .setTitle(getString(R.string.popup_title_delete_contact))
+                    .setPositiveButton(getString(R.string.popup_yes), DialogInterface.OnClickListener { dialog, id ->
                         idContato?.let {contato ->
                             ContactBusiness.excluirContato(contato) {
                                 Snackbar.make(btnExcluirContato, it, Snackbar.LENGTH_SHORT).show()
@@ -87,7 +85,7 @@ class ContactDetailActivity : AppCompatActivity() {
                             }
                         }
                     })
-                    .setNegativeButton("Não", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.popup_no), DialogInterface.OnClickListener { dialog, id ->
                         dialog.dismiss()
                     })
                     .create()
@@ -100,12 +98,12 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun configurarBtnEditarContato() {
         btnEditarContato.setOnClickListener {
 
-            if(btnEditarContato.text.equals("Editar")){
-                btnEditarContato.text = "Salvar"
+            if(btnEditarContato.text == getString(R.string.btnEditarContato)){
+                btnEditarContato.text = getString(R.string.btnSalvarContato)
                 habilitarCampos()
 
             } else {
-                btnEditarContato.text = "Editar"
+                btnEditarContato.text = getString(R.string.btnEditarContato)
                 attemptEditar()
                 desabilitarCampos()
             }
@@ -117,10 +115,11 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun configurarDatePickerNascimento() {
 
         val txtDataNascimento: TextView = findViewById(R.id.txtNascimento)
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = Date(contatoSelecionado!!.birth!!).time * 1000
 
-        val myFormat = "dd/MM/yyyy"
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = Date(contato!!.birth!!).time * 1000
+
+        val myFormat = getString(R.string.format_date_br)
         val sdf = SimpleDateFormat(myFormat)
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -192,24 +191,24 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun editarContato(){
         val contatoEditado = Contact(name=txtNomeContato.text.toString(), email = txtEmailContato.text.toString(), phone = txtTelefoneContato.text.toString())
         contatoEditado.id = idContato
-        contatoEditado.birth = SimpleDateFormat("dd/MM/yyyy").parse(txtNascimento.text.toString()).time/1000
+        contatoEditado.birth = SimpleDateFormat(getString(R.string.format_date_br)).parse(txtNascimento.text.toString()).time/1000
 
-        contatoSelecionado?.let {
+        contato?.let {
             contatoEditado.picture = it.picture
         }
 
-        Log.d("TAG", "${contatoSelecionado}")
+        Log.d("TAG", "${contato}")
 
 
 
-        if(contatoSelecionado!!.compareTo(contatoEditado) == 1){
+        if(contato!!.compareTo(contatoEditado) == 1){
             ContactBusiness.editarContato(contatoEditado,{
                 Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).show()
             }, {
                 Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).show()
             })
         } else {
-            Snackbar.make(btnEditarContato, "Nenhuma alteração foi feita.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).show()
         }
 
     }

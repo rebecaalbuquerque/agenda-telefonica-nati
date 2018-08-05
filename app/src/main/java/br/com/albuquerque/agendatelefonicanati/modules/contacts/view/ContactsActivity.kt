@@ -26,7 +26,7 @@ class ContactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
 
-        supportActionBar!!.title = "Meus contatos"
+        supportActionBar!!.title = getString(R.string.actionbar_contacts_title)
 
         configurarContatos()
         requestContatos()
@@ -51,9 +51,10 @@ class ContactsActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
 
             builder
-                    .setMessage("Você deseja realmente sair?")
-                    .setTitle("Logout")
-                    .setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
+                    .setMessage(getString(R.string.popup_msg_logout))
+                    .setTitle(getString(R.string.popup_title_logout))
+                    .setPositiveButton(getString(R.string.popup_yes), DialogInterface.OnClickListener { dialog, id ->
+
                         AuthBusiness.fazerLogout({
                             val intentLogout = Intent(this, AuthActivity::class.java)
                             startActivity(intentLogout)
@@ -62,8 +63,9 @@ class ContactsActivity : AppCompatActivity() {
                             Log.d("TAG", it)
                         })
                         dialog.dismiss()
+
                     })
-                    .setNegativeButton("Não", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.popup_no), DialogInterface.OnClickListener { dialog, id ->
                         dialog.dismiss()
                     })
                     .create()

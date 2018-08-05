@@ -26,18 +26,20 @@ class NewContactActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_contact)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Novo contato"
+        supportActionBar!!.title = getString(R.string.actionbar_new_contact_title)
 
         configurarBtnAdicionarContato()
         configurarDatePickerNascimento()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.getItemId()
+        val id = item.itemId
+
         if (id == android.R.id.home) {
             onBackPressed()
             return true
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -51,8 +53,7 @@ class NewContactActivity : AppCompatActivity() {
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd/MM/yyyy"
-            val sdf = SimpleDateFormat(myFormat)
+            val sdf = SimpleDateFormat(getString(R.string.format_date_br))
             txtDataNascimento.text = sdf.format(calendar.time)
 
         }
@@ -116,13 +117,13 @@ class NewContactActivity : AppCompatActivity() {
     }
 
     private fun criarContato(){
-        val timestampNasc = SimpleDateFormat("dd/MM/yyyy").parse(contactDataNasc.text.toString()).time/1000
+        val timestampNasc = SimpleDateFormat(getString(R.string.format_date_br)).parse(contactDataNasc.text.toString()).time/1000
         val novoContato = Contact(name=contactName.text.toString(), email = contactEmail.text.toString(), phone = contactTelefone.text.toString(), picture = contactFoto.text.toString(), birth = timestampNasc)
 
         ContactBusiness.criarNovoContato(novoContato, {
-            Snackbar.make(btnCriarContato, "Contato criado com sucesso!", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnCriarContato, getString(R.string.success_new_contact), Snackbar.LENGTH_SHORT).show()
         }, {
-            Snackbar.make(btnCriarContato, "Erro ao criar contato!", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnCriarContato, getString(R.string.error_new_contact), Snackbar.LENGTH_SHORT).show()
         })
     }
 }
