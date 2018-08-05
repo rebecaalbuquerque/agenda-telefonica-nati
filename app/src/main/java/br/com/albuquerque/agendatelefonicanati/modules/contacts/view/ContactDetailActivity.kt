@@ -102,7 +102,6 @@ class ContactDetailActivity : AppCompatActivity() {
             if(btnEditarContato.text == getString(R.string.btnEditarContato)){
                 btnEditarContato.text = getString(R.string.btnSalvarContato)
                 txtNascimento.setTextColor(Color.BLACK)
-                txtNascimento.setTextColor(Color.parseColor("#000000"))
                 habilitarCampos()
 
             } else {
@@ -210,7 +209,7 @@ class ContactDetailActivity : AppCompatActivity() {
                 Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).error().show()
             })
         } else {
-            Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).noChanges().show()
+            Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).show()
         }
 
     }

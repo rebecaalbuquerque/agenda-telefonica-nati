@@ -12,8 +12,3 @@ fun Snackbar.error(): Snackbar{
     this.view.setBackgroundColor(Color.parseColor("#e60000"))
     return this
 }
-
-fun Snackbar.noChanges(): Snackbar{
-    this.view.setBackgroundColor(Color.parseColor("#ffcc00"))
-    return this
-}
