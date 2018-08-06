@@ -72,10 +72,10 @@ class RegisterAccountActivity : AppCompatActivity() {
 
     private fun registerUser(){
         AuthBusiness.registrar(txtEmail.text.toString(), txtSenha.text.toString(), txtConfirmarSenha.text.toString(),{
-            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).success().show()
+            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).success()
 
         }, {
-            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).error().show()
+            Snackbar.make(btnCadastrarConta, it, Snackbar.LENGTH_SHORT).error()
         })
     }
 }

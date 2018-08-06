@@ -61,7 +61,7 @@ class ContactsActivity : AppCompatActivity() {
                             startActivity(intentLogout)
                             finish()
                         },{
-                            Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).error().show()
+                            Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).error()
                         })
                         dialog.dismiss()
 

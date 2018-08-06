@@ -117,9 +117,9 @@ class NewContactActivity : AppCompatActivity() {
 
         ContactBusiness.criarNovoContato(novoContato, {
             finish()
-            Snackbar.make(btnCriarContato, getString(R.string.success_new_contact), Snackbar.LENGTH_SHORT).success().show()
+            Snackbar.make(btnCriarContato, getString(R.string.success_new_contact), Snackbar.LENGTH_SHORT).success()
         }, {
-            Snackbar.make(btnCriarContato, getString(R.string.error_new_contact), Snackbar.LENGTH_SHORT).error().show()
+            Snackbar.make(btnCriarContato, getString(R.string.error_new_contact), Snackbar.LENGTH_SHORT).error()
         })
     }
 }

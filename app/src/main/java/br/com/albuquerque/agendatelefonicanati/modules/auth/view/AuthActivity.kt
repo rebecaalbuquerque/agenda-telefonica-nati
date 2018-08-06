@@ -79,7 +79,7 @@ class AuthActivity : AppCompatActivity() {
             finish()
 
         }, {
-            Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).error().show()
+            Snackbar.make(btnAuthLogin, it, Snackbar.LENGTH_SHORT).error()
         })
     }
 }

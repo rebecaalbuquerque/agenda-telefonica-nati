@@ -10,10 +10,10 @@ object AuthBusiness {
 
         AuthNetwork.criarConta( User(email, senha, confirmarSenha), {
 
-            onSuccess("Usuario criado com sucesso!")
+            onSuccess("Usuario criado com sucesso")
 
         }, {
-            onError("Erro ao criar usuario!")
+            onError("Erro ao criar usuario")
         } )
 
     }
@@ -25,7 +25,7 @@ object AuthBusiness {
                 onSuccess()
             }
         }, {
-            onError("Erro ao fazer login.")
+            onError("Erro ao fazer login")
         })
 
     }
@@ -37,7 +37,7 @@ object AuthBusiness {
             AuthDatabase.clearDataBase()
             onSuccess("Logout")
         },{
-            onError("Erro ao efetuar logout.")
+            onError("Erro ao efetuar logout")
         })
     }
 

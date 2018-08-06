@@ -65,10 +65,6 @@ class ContactDetailActivity : AppCompatActivity() {
                 txtNascimento.text = SimpleDateFormat(getString(R.string.format_date_br)).format(Date( it * 1000))
             }
         }
-
-
-
-
     }
 
     private fun configurarBtnExcluirContato() {
@@ -82,7 +78,7 @@ class ContactDetailActivity : AppCompatActivity() {
                         idContato?.let {contato ->
                             ContactBusiness.excluirContato(contato) {
                                 finish()
-                                Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).success().show()
+                                Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).success()
                             }
                         }
                     })
@@ -204,10 +200,10 @@ class ContactDetailActivity : AppCompatActivity() {
 
         if(contato!!.compareTo(contatoEditado) == 1){
             ContactBusiness.editarContato(contatoEditado,{
-                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).success().show()
+                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).success()
 
             }, {
-                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).error().show()
+                Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).error()
             })
         } else {
             Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).show()

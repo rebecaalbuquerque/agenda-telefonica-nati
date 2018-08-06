@@ -1,4 +1,4 @@
-package br.com.albuquerque.agendatelefonicanati.modules.contacts.view
+package br.com.albuquerque.agendatelefonicanati.core.view.activity
 
 import android.content.Context
 import android.content.DialogInterface
