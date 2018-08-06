@@ -102,6 +102,7 @@ class ContactDetailActivity : AppCompatActivity() {
             if(btnEditarContato.text == getString(R.string.btnEditarContato)){
                 btnEditarContato.text = getString(R.string.btnSalvarContato)
                 txtNascimento.setTextColor(Color.BLACK)
+                txtNascimento.alpha = 1.0F
                 habilitarCampos()
 
             } else {

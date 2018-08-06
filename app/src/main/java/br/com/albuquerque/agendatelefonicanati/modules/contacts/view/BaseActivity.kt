@@ -10,6 +10,11 @@ import android.view.MenuItem
 import br.com.albuquerque.agendatelefonicanati.R
 
 abstract class BaseActivity: AppCompatActivity() {
+
+    private val progessDialog by lazy{
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
@@ -27,7 +32,7 @@ abstract class BaseActivity: AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun showPopup(context: Context, title: String, msg: String, positiveAction: () -> Unit, negativeAction: (() -> Unit)?){
+    protected fun showPopup(context: Context, title: String, msg: String, positiveAction: () -> Unit, negativeAction: (() -> Unit)?){
         AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(msg)
@@ -43,5 +48,7 @@ abstract class BaseActivity: AppCompatActivity() {
                 .create()
                 .show()
     }
+
+
 
 }

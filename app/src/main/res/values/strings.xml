@@ -26,8 +26,8 @@
     <string name="popup_no">Não</string>
 
     <!-- Requests -->
-    <string name="error_new_contact">Erro ao criar contato!</string>
-    <string name="success_new_contact">Contato criado com sucesso!</string>
+    <string name="error_new_contact">Erro ao criar contato</string>
+    <string name="success_new_contact">Contato criado com sucesso</string>
 
     <!-- Outros -->
     <string name="format_date_br">dd/MM/yyyy</string>
