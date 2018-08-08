@@ -5,24 +5,23 @@ import io.realm.Realm
 
 object AuthDatabase {
 
-    fun salvarUsuarioLogado(usuario: User, onSuccess: () -> Unit){
+    fun salvarUsuario(usuario: User){
 
         Realm.getDefaultInstance().use { realm ->
 
             realm.beginTransaction()
             realm.copyToRealm(usuario)
             realm.commitTransaction()
-            onSuccess()
 
         }
 
     }
 
-    fun buscarUsuarioLogado(): User? {
+    fun getUsuario(): User? {
         return Realm.getDefaultInstance().where(User::class.java).findFirst()
     }
 
-    fun clearDataBase(){
+    fun clearDatabase(){
 
         Realm.getDefaultInstance().use { realm ->
 

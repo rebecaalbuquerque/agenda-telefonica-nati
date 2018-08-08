@@ -1,25 +1,17 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.view
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import br.com.albuquerque.agendatelefonicanati.R
-import br.com.albuquerque.agendatelefonicanati.core.extensions.error
-import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
-import br.com.albuquerque.agendatelefonicanati.modules.auth.view.AuthActivity
+import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.adapter.ContactsAdapter
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
 import kotlinx.android.synthetic.main.activity_contacts.*
 
 
-class ContactsActivity : AppCompatActivity() {
+class ContactsActivity : BaseActivity() {
 
     private val adapter = ContactsAdapter()
 
@@ -27,57 +19,25 @@ class ContactsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
 
-        supportActionBar!!.title = getString(R.string.actionbar_contacts_title)
+        setupActionBar(null, getString(R.string.actionbar_contacts_title))
 
-        configurarContatos()
+        configurarRecyclerViewContatos()
         requestContatos()
         configurarBotaoNovoContato()
     }
 
     override fun onStart() {
         atualizarContatos()
-
         super.onStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.contacts_menu, menu)
-
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.btnLogout) {
-            val builder = AlertDialog.Builder(this)
-
-            builder
-                    .setMessage(getString(R.string.popup_msg_logout))
-                    .setTitle(getString(R.string.popup_title_logout))
-                    .setPositiveButton(getString(R.string.popup_yes), DialogInterface.OnClickListener { dialog, id ->
-
-                        AuthBusiness.fazerLogout({
-                            val intentLogout = Intent(this, AuthActivity::class.java)
-                            startActivity(intentLogout)
-                            finish()
-                        },{
-                            Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).error()
-                        })
-                        dialog.dismiss()
-
-                    })
-                    .setNegativeButton(getString(R.string.popup_no), DialogInterface.OnClickListener { dialog, id ->
-                        dialog.dismiss()
-                    })
-                    .create()
-                    .show()
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun configurarBotaoNovoContato() {
-
         btnNovoContato.setOnClickListener {
             startActivity( Intent(this, NewContactActivity::class.java) )
         }
@@ -105,12 +65,12 @@ class ContactsActivity : AppCompatActivity() {
 
     }
 
-    private fun configurarContatos() {
+    private fun configurarRecyclerViewContatos() {
         rvListaContatos.adapter = adapter
 
-        swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener{
             atualizarContatos()
-        })
+        }
 
     }
 
@@ -120,11 +80,8 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun onItemsLoadComplete() {
-        // Update the adapter and notify data set changed
         rvListaContatos.adapter.notifyDataSetChanged()
-
-        // Stop refresh animation
-        swipeRefreshLayout.setRefreshing(false)
+        swipeRefreshLayout.isRefreshing = false
     }
 
 

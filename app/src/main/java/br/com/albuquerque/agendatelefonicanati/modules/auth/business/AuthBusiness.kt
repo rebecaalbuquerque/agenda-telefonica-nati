@@ -9,9 +9,7 @@ object AuthBusiness {
     fun registrar(email: String, senha: String, confirmarSenha: String, onSuccess: (msg: String)-> Unit, onError: (msg: String)-> Unit){
 
         AuthNetwork.criarConta( User(email, senha, confirmarSenha), {
-
             onSuccess("Usuario criado com sucesso")
-
         }, {
             onError("Erro ao criar usuario")
         } )
@@ -21,9 +19,8 @@ object AuthBusiness {
     fun fazerLogin(email: String, senha: String, onSuccess: ()-> Unit, onError: (msg: String)-> Unit){
 
         AuthNetwork.fazerLogin(email, senha, { user ->
-            AuthDatabase.salvarUsuarioLogado(user) {
-                onSuccess()
-            }
+            AuthDatabase.salvarUsuario(user)
+            onSuccess()
         }, {
             onError("Erro ao fazer login")
         })
@@ -31,25 +28,26 @@ object AuthBusiness {
     }
 
     fun fazerLogout(onSuccess: (msg: String)-> Unit, onError: (msg: String)-> Unit){
-        val headers = AuthBusiness.getHeaders()
+
+        val headers = getHeaders()
 
         AuthNetwork.fazerLogout(headers,{
-            AuthDatabase.clearDataBase()
+            AuthDatabase.clearDatabase()
             onSuccess("Logout")
         },{
             onError("Erro ao efetuar logout")
         })
     }
 
-    fun buscarUsuarioLogado(): User? {
-        return AuthDatabase.buscarUsuarioLogado()
+    fun getUsuarioLogado(): User? {
+        return AuthDatabase.getUsuario()
     }
 
     fun getHeaders(): Map<String, String>{
 
         val headers = HashMap<String, String>()
 
-        buscarUsuarioLogado()?.let { user ->
+        getUsuarioLogado()?.let { user ->
 
             user.uid?.let{ uid ->
                 headers.put("uid", uid)

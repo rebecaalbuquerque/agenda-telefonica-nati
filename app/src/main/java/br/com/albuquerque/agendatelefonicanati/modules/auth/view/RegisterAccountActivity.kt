@@ -1,39 +1,24 @@
 package br.com.albuquerque.agendatelefonicanati.modules.auth.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputLayout
-import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.view.MenuItem
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.core.extensions.error
 import br.com.albuquerque.agendatelefonicanati.core.extensions.success
+import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import kotlinx.android.synthetic.main.activity_register_account.*
 
-class RegisterAccountActivity : AppCompatActivity() {
+class RegisterAccountActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_account)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = getString(R.string.actionbar_register_user_title)
-
+        setupActionBar(true, getString(R.string.actionbar_register_user_title))
         configurarBotaoCadastrar()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun configurarBotaoCadastrar() {

@@ -21,9 +21,7 @@ class ContactsAdapter: RecyclerView.Adapter<ContactViewHolder>() {
         contacts = ContactBusiness.buscarContatos().sortedWith(compareBy(Contact::name))
         notifyDataSetChanged()
 
-        refreshFinished?.let { lambda ->
-            lambda(contacts.isNotEmpty())
-        }
+        refreshFinished?.invoke(contacts.isNotEmpty())
 
     }
 

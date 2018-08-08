@@ -1,6 +1,5 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.network
 
-import android.util.Log
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ContactNetwork {
 
-    val contactApi: ContactApi by lazy {
+    private val contactApi: ContactApi by lazy {
         configurarRetrofit().create(ContactApi::class.java)
     }
 
@@ -22,7 +21,7 @@ object ContactNetwork {
                 .build()
     }
 
-    fun requestContatos(headers: Map<String, String>, onSuccess: (contatos: List<Contact>) -> Unit){
+    fun requestContatos(headers: Map<String, String>, onSuccess: (contatos: List<Contact>) -> Unit, onError: () -> Unit){
 
         contactApi.listarContatos(headers)
                 .subscribeOn(Schedulers.io())
@@ -30,18 +29,9 @@ object ContactNetwork {
                 .subscribe ({
                     onSuccess(it)
                 },{
-                    Log.d("TAG", "")
+                    onError()
                 })
 
-    }
-
-    fun requestContato(headers: Map<String, String>, id: Int, onSuccess: (contato: Contact) -> Unit){
-        contactApi.buscarContato(headers, id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    onSuccess(it)
-                })
     }
 
     fun requestExcluirContato(headers: Map<String, String>, id: Int, onSuccess: () -> Unit){

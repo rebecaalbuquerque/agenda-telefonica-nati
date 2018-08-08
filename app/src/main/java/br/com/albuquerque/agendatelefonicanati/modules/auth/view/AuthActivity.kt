@@ -8,20 +8,19 @@ import android.support.design.widget.TextInputLayout
 import android.text.TextUtils
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.core.extensions.error
+import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.view.ContactsActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_auth.*
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        Realm.init(this)
-
-        if(AuthBusiness.buscarUsuarioLogado() != null){
+        if(AuthBusiness.getUsuarioLogado() != null){
             val intentAuth = Intent(this, ContactsActivity::class.java)
             startActivity(intentAuth)
             finish()

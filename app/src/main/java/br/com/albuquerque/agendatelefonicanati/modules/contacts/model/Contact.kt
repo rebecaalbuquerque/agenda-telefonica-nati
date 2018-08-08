@@ -12,20 +12,7 @@ open class Contact(): RealmObject(), Comparable<Contact> {
     var picture: String? = null
     var birth: Long? = null
 
-    constructor(name: String?, email: String?, phone: String?): this(){
-        this.name = name
-        this.email = email
-        this.phone = phone
-    }
-
-    constructor(name: String?, email: String?, phone: String?, picture: String?): this(){
-        this.name = name
-        this.email = email
-        this.phone = phone
-        this.picture = picture
-    }
-
-    constructor(name: String?, email: String?, phone: String?, picture: String?, birth: Long?): this(){
+    constructor(name: String? = "Nome default", email: String? = "Email default", phone: String? = "Phone default", picture: String? = "Picture url", birth: Long? = 0): this(){
         this.name = name
         this.email = email
         this.phone = phone

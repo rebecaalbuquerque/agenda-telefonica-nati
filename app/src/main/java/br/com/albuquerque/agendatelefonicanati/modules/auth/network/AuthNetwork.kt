@@ -1,10 +1,8 @@
 package br.com.albuquerque.agendatelefonicanati.modules.auth.network
 
-import br.com.albuquerque.agendatelefonicanati.modules.auth.database.AuthDatabase
 import br.com.albuquerque.agendatelefonicanati.modules.auth.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object AuthNetwork {
 
-    val authAPI: AuthApi by lazy {
+    private val authAPI: AuthApi by lazy {
         configurarRetrofit().create(AuthApi::class.java)
     }
 
@@ -31,11 +29,8 @@ object AuthNetwork {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     onSucess()
-
                 },{
-
                     onError()
-
                 })
 
     }

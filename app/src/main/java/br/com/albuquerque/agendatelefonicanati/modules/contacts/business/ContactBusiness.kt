@@ -1,6 +1,5 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.business
 
-import android.util.Log
 import br.com.albuquerque.agendatelefonicanati.modules.auth.business.AuthBusiness
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.database.ContactDatabase
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
@@ -14,10 +13,8 @@ object ContactBusiness {
 
         ContactNetwork.requestContatos(headers) { contatos ->
 
-            ContactDatabase.salvarContatos(contatos) {
-                onSuccess()
-            }
-
+            ContactDatabase.salvarContatos(contatos)
+            onSuccess()
         }
 
     }
@@ -35,10 +32,8 @@ object ContactBusiness {
         val headers = AuthBusiness.getHeaders()
 
         ContactNetwork.requestNovoContato(headers, contato, { contatoResponse ->
-            ContactDatabase.criarNovoContato(contatoResponse,{
-                onSuccess()
-            })
-
+            ContactDatabase.criarNovoContato(contatoResponse)
+            onSuccess()
         }, {
             onError()
         })
@@ -49,12 +44,8 @@ object ContactBusiness {
         val headers = AuthBusiness.getHeaders()
 
         ContactNetwork.requestExcluirContato(headers, idContato,{
-            val contato = ContactDatabase.buscarContato(idContato)
-
-            ContactDatabase.excluirContato(contato,{
-                onSuccess("Contato excluido com sucesso.")
-
-            })
+            ContactDatabase.excluirContato(idContato)
+            onSuccess("Contato excluido com sucesso.")
         })
     }
 
@@ -62,9 +53,8 @@ object ContactBusiness {
         val headers = AuthBusiness.getHeaders()
 
         ContactNetwork.requestEditarContato(headers, contatoAtualizado,{
-            ContactDatabase.editarContato(it,{
-                onSuccess("Contato editado com sucesso.")
-            })
+            ContactDatabase.editarContato(it)
+            onSuccess("Contato editado com sucesso.")
         }, {
             onError("Erro ao editar contato.")
         })

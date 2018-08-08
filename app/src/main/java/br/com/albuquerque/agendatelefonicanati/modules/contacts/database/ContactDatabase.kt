@@ -5,7 +5,7 @@ import io.realm.Realm
 
 object ContactDatabase {
 
-    fun salvarContatos(contatos: List<Contact>, onSuccess: () -> Unit) {
+    fun salvarContatos(contatos: List<Contact>) {
 
         Realm.getDefaultInstance().use { realm ->
 
@@ -13,9 +13,6 @@ object ContactDatabase {
             realm.delete(Contact::class.java)
             realm.copyToRealm(contatos)
             realm.commitTransaction()
-
-            onSuccess()
-
         }
 
     }
@@ -28,36 +25,30 @@ object ContactDatabase {
         return (Realm.getDefaultInstance().where(Contact::class.java).findAll().first{it.id == contatoId})
     }
 
-    fun criarNovoContato(contato: Contact, onSuccess: () -> Unit){
+    fun criarNovoContato(contato: Contact){
         Realm.getDefaultInstance().use { realm ->
 
             realm.beginTransaction()
             realm.copyToRealm(contato)
             realm.commitTransaction()
-            onSuccess()
 
         }
     }
 
-    fun editarContato(contatoAtualizado: Contact, onSuccess: () -> Unit){
+    fun editarContato(contatoAtualizado: Contact){
         Realm.getDefaultInstance().use { realm ->
             realm.beginTransaction()
             realm.copyToRealmOrUpdate(contatoAtualizado)
             realm.commitTransaction()
-
-            onSuccess()
         }
     }
 
-    fun excluirContato(contato: Contact, onSuccess: () -> Unit){
+    fun excluirContato(id: Int){
         Realm.getDefaultInstance().use { realm ->
 
             realm.beginTransaction()
-            contato.deleteFromRealm()
+            realm.where(Contact::class.java).equalTo(Contact::id.name, id).findFirst()?.deleteFromRealm()
             realm.commitTransaction()
-
-            onSuccess()
-
         }
     }
 

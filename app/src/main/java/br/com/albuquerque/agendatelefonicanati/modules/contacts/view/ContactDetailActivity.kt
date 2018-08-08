@@ -1,92 +1,65 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.view
 
-import android.app.DatePickerDialog
-import android.support.v7.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import android.support.design.widget.Snackbar
+import android.text.TextUtils
 import br.com.albuquerque.agendatelefonicanati.R
+import br.com.albuquerque.agendatelefonicanati.core.extensions.*
+import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
+import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_contact_detail.*
-import android.content.DialogInterface
-import android.graphics.Color
-import android.support.design.widget.Snackbar
-import android.view.MenuItem
-import android.text.TextUtils
-import android.widget.TextView
-import br.com.albuquerque.agendatelefonicanati.core.extensions.*
-import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import java.text.SimpleDateFormat
-import java.util.*
 
 
-class ContactDetailActivity : AppCompatActivity() {
+class ContactDetailActivity : BaseActivity() {
 
     private var idContato: Int? = null
-    private var contato: Contact? = null
+    private lateinit var contato: Contact
+    private lateinit var activityName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_detail)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
         configurarContatoSelecionado()
-        configurarDatePickerNascimento()
+        setupActionBar(true, activityName)
+        setupDatePicker(txtNascimento, contato.birth)
         configurarBtnEditarContato()
         configurarBtnExcluirContato()
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun configurarContatoSelecionado(){
         val idContatoExtra = intent.getIntExtra("idContato", -1)
-        contato = ContactBusiness.buscarContato(idContatoExtra)
-        idContato = idContatoExtra
 
-        contato?.let {
-            supportActionBar!!.title = it.name
+        if(idContatoExtra != -1){
+            contato = ContactBusiness.buscarContato(idContatoExtra)
+            idContato = idContatoExtra
 
-            txtNomeContato.setText(it.name)
-            txtEmailContato.setText(it.email)
-            Picasso.with(this).load(it.picture).into(ivFotoContato)
-            txtTelefoneContato.setText(it.phone)
+            contato.name?.let {
+                activityName = it
+            }
 
-            it.birth?.let{
-                txtNascimento.text = SimpleDateFormat(getString(R.string.format_date_br)).format(Date( it * 1000))
+            txtNomeContato.setText(contato.name)
+            txtEmailContato.setText(contato.email)
+            Picasso.with(this).load(contato.picture).into(ivFotoContato)
+            txtTelefoneContato.setText(contato.phone)
+
+            contato.birth?.let{
+                txtNascimento.text = it.toDate().formatoBrasileiro()
             }
         }
     }
 
     private fun configurarBtnExcluirContato() {
         btnExcluirContato.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
 
-            builder
-                    .setMessage(getString(R.string.popup_msg_delete_contact))
-                    .setTitle(getString(R.string.popup_title_delete_contact))
-                    .setPositiveButton(getString(R.string.popup_yes), DialogInterface.OnClickListener { dialog, id ->
-                        idContato?.let {contato ->
-                            ContactBusiness.excluirContato(contato) {
-                                finish()
-                                Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).success()
-                            }
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.popup_no), DialogInterface.OnClickListener { dialog, id ->
-                        dialog.dismiss()
-                    })
-                    .create()
-                    .show()
+            showAlert(R.string.alert_title_delete_contact, R.string.alert_msg_delete_contact, {
+                excluirContato()
+            }, null)
 
         }
 
@@ -111,33 +84,6 @@ class ContactDetailActivity : AppCompatActivity() {
 
         }
 
-    }
-
-    private fun configurarDatePickerNascimento() {
-
-        val txtDataNascimento: TextView = findViewById(R.id.txtNascimento)
-
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = Date(contato!!.birth!!).time * 1000
-
-        val myFormat = getString(R.string.format_date_br)
-        val sdf = SimpleDateFormat(myFormat)
-
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, monthOfYear)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            txtDataNascimento.text = sdf.format(calendar.time)
-        }
-
-        txtDataNascimento.setOnClickListener {
-            DatePickerDialog(this, dateSetListener,
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
     }
 
     private fun habilitarCampos(){
@@ -190,16 +136,16 @@ class ContactDetailActivity : AppCompatActivity() {
     }
 
     private fun editarContato(){
+
         val contatoEditado = Contact(name=txtNomeContato.text.toString(), email = txtEmailContato.text.toString(), phone = txtTelefoneContato.text.toString())
         contatoEditado.id = idContato
         contatoEditado.birth = SimpleDateFormat(getString(R.string.format_date_br)).parse(txtNascimento.text.toString()).time/1000
 
-        contato?.let {
-            contatoEditado.picture = it.picture
-        }
+        contatoEditado.picture = contato.picture
 
-        if(contato!!.compareTo(contatoEditado) == 1){
+        if(contato.compareTo(contatoEditado) == 1){
             ContactBusiness.editarContato(contatoEditado,{
+                setupActionBar(null, contatoEditado.name)
                 Snackbar.make(btnEditarContato, it, Snackbar.LENGTH_SHORT).success()
 
             }, {
@@ -208,7 +154,15 @@ class ContactDetailActivity : AppCompatActivity() {
         } else {
             Snackbar.make(btnEditarContato, getString(R.string.msg_no_changes), Snackbar.LENGTH_SHORT).show()
         }
+    }
 
+    private fun excluirContato(){
+        idContato?.let {contato ->
+            ContactBusiness.excluirContato(contato) {
+                finish()
+                Snackbar.make(window.decorView, it, Snackbar.LENGTH_SHORT).success()
+            }
+        }
     }
 
 }

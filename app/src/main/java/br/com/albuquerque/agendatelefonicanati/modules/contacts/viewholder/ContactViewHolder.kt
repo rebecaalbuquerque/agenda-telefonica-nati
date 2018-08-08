@@ -3,7 +3,6 @@ package br.com.albuquerque.agendatelefonicanati.modules.contacts.viewholder
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.view.ContactDetailActivity
@@ -22,18 +21,21 @@ class ContactViewHolder(var view: View): RecyclerView.ViewHolder(view) {
         }
 
         view.setOnClickListener {
-
-            val intentDetalhes = Intent(it.context, ContactDetailActivity::class.java)
-            val extraBundle = Bundle()
-
-            contato.id?.let { contatoId ->
-                extraBundle.putInt("idContato", contatoId)
-            }
-
-            intentDetalhes.putExtras(extraBundle)
-            it.context.startActivity(intentDetalhes)
+            intentContactDetail(it, contato)
         }
 
+    }
+
+    private fun intentContactDetail(it: View, contato: Contact) {
+        val intentDetalhes = Intent(it.context, ContactDetailActivity::class.java)
+        val extraBundle = Bundle()
+
+        contato.id?.let { contatoId ->
+            extraBundle.putInt("idContato", contatoId)
+        }
+
+        intentDetalhes.putExtras(extraBundle)
+        it.context.startActivity(intentDetalhes)
     }
 
 }
