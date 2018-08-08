@@ -1,5 +1,6 @@
 package br.com.albuquerque.agendatelefonicanati.modules.contacts.network
 
+import android.util.Log
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +22,7 @@ object ContactNetwork {
                 .build()
     }
 
-    fun requestContatos(headers: Map<String, String>, onSuccess: (contatos: List<Contact>) -> Unit, onError: () -> Unit){
+    fun requestContatos(headers: Map<String, String>, onSuccess: (contatos: List<Contact>) -> Unit){
 
         contactApi.listarContatos(headers)
                 .subscribeOn(Schedulers.io())
@@ -29,7 +30,7 @@ object ContactNetwork {
                 .subscribe ({
                     onSuccess(it)
                 },{
-                    onError()
+                    Log.d("TAG", "Erro request contatos")
                 })
 
     }

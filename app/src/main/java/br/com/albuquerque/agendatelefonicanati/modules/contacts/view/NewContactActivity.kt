@@ -7,6 +7,7 @@ import android.text.TextUtils
 import br.com.albuquerque.agendatelefonicanati.R
 import br.com.albuquerque.agendatelefonicanati.core.extensions.error
 import br.com.albuquerque.agendatelefonicanati.core.extensions.success
+import br.com.albuquerque.agendatelefonicanati.core.extensions.toDate
 import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
@@ -70,7 +71,7 @@ class NewContactActivity : BaseActivity() {
     }
 
     private fun criarContato(){
-        val timestampNasc = SimpleDateFormat(getString(R.string.format_date_br)).parse(contactDataNasc.text.toString()).time/1000
+        val timestampNasc = contactDataNasc.text.toString().toDate().time/1000
         val novoContato = Contact(name=contactName.text.toString(), email = contactEmail.text.toString(), phone = contactTelefone.text.toString(), picture = contactFoto.text.toString(), birth = timestampNasc)
 
         ContactBusiness.criarNovoContato(novoContato, {
@@ -80,6 +81,7 @@ class NewContactActivity : BaseActivity() {
             Snackbar.make(btnCriarContato, getString(R.string.error_new_contact), Snackbar.LENGTH_SHORT).error()
         })
     }
+
 }
 
 

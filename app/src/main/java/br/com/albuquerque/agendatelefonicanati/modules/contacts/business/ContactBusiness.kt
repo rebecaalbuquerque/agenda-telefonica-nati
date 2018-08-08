@@ -54,7 +54,6 @@ object ContactBusiness {
 
         ContactNetwork.requestEditarContato(headers, contatoAtualizado,{
             ContactDatabase.editarContato(it)
-            onSuccess("Contato editado com sucesso.")
         }, {
             onError("Erro ao editar contato.")
         })
