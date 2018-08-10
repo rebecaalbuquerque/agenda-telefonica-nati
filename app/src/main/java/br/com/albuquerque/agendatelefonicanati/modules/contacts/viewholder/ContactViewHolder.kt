@@ -7,6 +7,7 @@ import android.view.View
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.view.ContactDetailActivity
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.viewholder_contact.view.*
 
 class ContactViewHolder(var view: View): RecyclerView.ViewHolder(view) {
@@ -16,7 +17,7 @@ class ContactViewHolder(var view: View): RecyclerView.ViewHolder(view) {
         with(view){
             vhNome.text = contato.name
             vhEmail.text = contato.email
-            Picasso.with(this.context).load(contato.picture).into(vhFoto)
+            Picasso.with(this.context).load(contato.picture).transform(CropCircleTransformation()).into(vhFoto)
             vhTelefone.text = contato.phone
         }
 

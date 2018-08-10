@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.text.TextUtils
 import br.com.albuquerque.agendatelefonicanati.R
+import br.com.albuquerque.agendatelefonicanati.R.id.ivFotoContato
 import br.com.albuquerque.agendatelefonicanati.core.extensions.*
 import br.com.albuquerque.agendatelefonicanati.core.view.activity.BaseActivity
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.business.ContactBusiness
 import br.com.albuquerque.agendatelefonicanati.modules.contacts.model.Contact
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_contact_detail.*
 import java.text.SimpleDateFormat
 
@@ -45,7 +47,7 @@ class ContactDetailActivity : BaseActivity() {
 
             txtNomeContato.setText(contato.name)
             txtEmailContato.setText(contato.email)
-            Picasso.with(this).load(contato.picture).into(ivFotoContato)
+            Picasso.with(this).load(contato.picture).transform(CropCircleTransformation()).into(ivFotoContato)
             txtTelefoneContato.setText(contato.phone)
 
             contato.birth?.let{
