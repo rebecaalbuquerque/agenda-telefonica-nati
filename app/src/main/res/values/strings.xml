@@ -14,14 +14,15 @@
 
     <!-- Erros e mensagens de input -->
     <string name="error_input">Campo vazio</string>
+    <string name="error_no_connection">Sem conexão com a internet</string>
     <string name="error_input_length">A senha deve conter pelo menos 8 caracteres.</string>
     <string name="msg_no_changes">Nenhuma alteração foi feita.</string>
 
     <!-- Alert -->
     <string name="alert_title_logout">Logout</string>
     <string name="alert_title_delete_contact">Excluir contato</string>
-    <string name="alert_msg_logout">Você deseja realmente sair?</string>
-    <string name="alert_msg_delete_contact">Você deseja realmente excluir esse contato?</string>
+    <string name="alert_msg_logout">Você realmente deseja sair?</string>
+    <string name="alert_msg_delete_contact">Você realmente deseja excluir esse contato?</string>
     <string name="alert_yes">Sim</string>
     <string name="alert_no">Não</string>
 

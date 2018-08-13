@@ -1,7 +1,9 @@
 package br.com.albuquerque.agendatelefonicanati.core.view.activity
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.StringRes
@@ -96,6 +98,24 @@ abstract class BaseActivity: AppCompatActivity() {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
+    }
+
+    protected fun isConnectedToInternet(context: Context): Boolean {
+        val networkTypes = intArrayOf(ConnectivityManager.TYPE_MOBILE, ConnectivityManager.TYPE_WIFI)
+
+        try {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            for (networkType in networkTypes) {
+                val activeNetworkInfo = connectivityManager.activeNetworkInfo
+                if (activeNetworkInfo != null && activeNetworkInfo.type == networkType)
+                    return true
+            }
+        } catch (e: Exception) {
+            return false
+        }
+
+        return false
     }
 
     private fun logout(){

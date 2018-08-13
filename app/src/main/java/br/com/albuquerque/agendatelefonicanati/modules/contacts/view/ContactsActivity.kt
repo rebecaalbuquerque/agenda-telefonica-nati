@@ -27,7 +27,7 @@ class ContactsActivity : BaseActivity() {
     }
 
     override fun onStart() {
-        atualizarContatos()
+        atualizarRecyclerview()
         super.onStart()
     }
 
@@ -44,11 +44,32 @@ class ContactsActivity : BaseActivity() {
     }
 
     private fun requestContatos() {
-
         swipeRefreshLayout.isRefreshing = true
 
+        if(!isConnectedToInternet(this)) atualizarContatosDB() else atualizarContatosApi()
+
+    }
+
+    private fun atualizarContatosDB(){
+        ContactBusiness.buscarContatos()
+        swipeRefreshLayout.isRefreshing = false
+
+        adapter.refresh { hasContent ->
+
+            if(hasContent) {
+                lblSemContatos.visibility = View.GONE
+                rvListaContatos.visibility = View.VISIBLE
+            }else{
+                lblSemContatos.visibility = View.VISIBLE
+                rvListaContatos.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun atualizarContatosApi(){
         ContactBusiness.atualizarContatos {
             swipeRefreshLayout.isRefreshing = false
+
             adapter.refresh { hasContent ->
 
                 if(hasContent) {
@@ -58,23 +79,20 @@ class ContactsActivity : BaseActivity() {
                     lblSemContatos.visibility = View.VISIBLE
                     rvListaContatos.visibility = View.GONE
                 }
-
             }
-
         }
-
     }
 
     private fun configurarRecyclerViewContatos() {
         rvListaContatos.adapter = adapter
 
         swipeRefreshLayout.setOnRefreshListener{
-            atualizarContatos()
+            atualizarRecyclerview()
         }
 
     }
 
-    private fun atualizarContatos() {
+    private fun atualizarRecyclerview() {
         adapter.refresh()
         onItemsLoadComplete()
     }
@@ -83,6 +101,5 @@ class ContactsActivity : BaseActivity() {
         rvListaContatos.adapter.notifyDataSetChanged()
         swipeRefreshLayout.isRefreshing = false
     }
-
 
 }

@@ -12,3 +12,8 @@ fun Snackbar.error(){
     this.view.setBackgroundColor(Color.parseColor("#e60000"))
     return this.show()
 }
+
+fun Snackbar.alert(){
+    this.view.setBackgroundColor(Color.parseColor("#FFC107"))
+    return this.show()
+}
